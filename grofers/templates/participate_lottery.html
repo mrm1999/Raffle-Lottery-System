@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %} Lotttery Participate {% endblock title %}
+
+{% block body %}
+<div class="container my-3">
+  <h1 style="justify-content: center;"> Participate in Lottery</h1>
+  <form action = "/lottery-registration" method="POST">
+  <div class="mb-3">
+    <label for="Email" class="form-label">Email Address</label>
+    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name = "email" required>
+    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+  </div>
+  <button type="submit" class="btn btn-primary">Participate</button>
+</form>
+
+{% if message %}
+<div class="alert alert-info my-3" role="alert">
+  {{message}}
+</div>
+{% endif %}
+</div>
+
+{% endblock body %}

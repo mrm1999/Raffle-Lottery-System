@@ -1,11 +1,10 @@
 from enum import unique
 from grofers import db
 
-
 class User(db.Model):
   User_Name = db.Column(db.String())
   User_Email = db.Column(db.String(), unique = True, primary_key = True)
-# default =  db.Sequence('sequence_id', start= 10 , increment = 1)
+
   def __repr__(self):
     return '<UserName %r>' % self.UserName
 

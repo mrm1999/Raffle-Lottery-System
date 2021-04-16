@@ -2,23 +2,25 @@
 {% block title %} Winners {% endblock title %}
 
 {% block body %}
-<h1 style="justify-content: center;">Winners</h1>
-<table class="table table-bordered table-striped table-sm my-3">
-  <thead>
-    <tr>
-      <th scope="col">Date</th>
-      <th scope="col">Prize</th>
-      <th scope="col">Winner Email Id</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for winner in Winners %}
-    <tr>
-      <td>{{winner["Date"]}}</td>
-      <td>{{winner["Prize"]}}</td>
-      <td>{{winner["Email Id"]}}</td>
-    </tr> 
-    {% endfor %}
-  </tbody>
-</table>
+<div class="container my-3">
+  <h1 style="justify-content: center;">Winners</h1>
+  <table class="table table-bordered table-striped table-sm my-3">
+    <thead>
+      <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Prize</th>
+        <th scope="col">Winner Email Id</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for winner in Winners %}
+      <tr>
+        <td>{{winner["Date"]}}</td>
+        <td>{{winner["Prize"]}}</td>
+        <td>{{winner["Email Id"]}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
 {% endblock body %}

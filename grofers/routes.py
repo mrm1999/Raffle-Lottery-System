@@ -1,10 +1,12 @@
+from flask.helpers import flash, url_for
 from sqlalchemy.orm import query
 from grofers import app, db
 from .models import ParticipatingIds, Ticket, User, Lottery
 from datetime import date, timedelta
-from flask import request, jsonify, render_template
+from flask import request, jsonify, render_template, redirect
 import json
 import random
+
 
 @app.route("/dummy")
 def dummy():
@@ -33,11 +35,11 @@ def dummy():
       db.session.add(ParticipatingIds(Ticket_Id = ticket.id))
       
     db.session.commit()
+    return "Dummy Date"
   except Exception as err:
     print(err)
-
-  return "Dummy Date"
-
+    return err
+ 
 @app.route("/")
 def index():
   today = date.today()
@@ -57,21 +59,20 @@ def resetData():
   db.create_all()
   return "Data Reseted Successfully"
 
-@app.route("/register-user", methods = ['POST'])
+@app.route("/register-user", methods = ['GET','POST'])
 def registerUser():
-  try:
-    data = request.json
+  if(request.method == 'GET'):
+    return render_template('user_registration.html')
+  else:
+    data = request.form
     if data == None:
-      return "DataNotRecieved"
+      return render_template('user_registration.html', message = "Data Not Recieved")
     elif (User.query.filter_by(User_Email = data["email"]).first() is None):
       db.session.add(User(User_Email = data["email"] , User_Name = data["username"]))
       db.session.commit()
-      return "User Data Successfully Added"
+      return render_template('user_registration.html', message = "User Registered Successfully")  
     else:
-      return "User Already Registered"
-
-  except Exception as err:
-    print(err)
+      return render_template('user_registration.html', message = "User Already Registered")
 
 @app.route("/show-prizes")
 def showPrizes():
@@ -85,53 +86,52 @@ def showPrizes():
     })
   return json.dumps(dateandprizes)
 
-@app.route("/get-ticket", methods = ['POST'])
+@app.route("/get-ticket", methods = ['GET', 'POST'])
 def getTicket():
-  try:
-    data = request.json
+  if(request.method == 'GET'):
+    return render_template('buy_ticket.html')
 
+  else:
+    data = request.form
+    
     if data == None:
-      return "Data Not Recieved"
-
+      return render_template('buy_ticket.html' , message = "Data Not Recieved")
+    
     elif (User.query.filter_by(User_Email = data["email"]).first() is None):
-      return "E-mail id Not Registered"
-
+      return render_template('buy_ticket.html' , message = "E-mail Id is not Registered")
+    
     else:
       e_mail = data["email"]
       ticket = Ticket(Email = e_mail)
       db.session.add(ticket)
       db.session.commit()
-      return jsonify(Ticket = ticket.id)
+      return render_template('buy_ticket.html' , message = f'Your Ticket Number is {ticket.id}')
 
-  except Exception as err:
-    print(err)
-
-@app.route("/lottery-registration", methods = ['POST'])
+@app.route("/lottery-registration", methods = ['GET','POST'])
 def LotteryRegistration():
-  try:
-    data = request.json
+  if(request.method == 'GET'):
+    return render_template("participate_lottery.html")
+  else:
+    data = request.form
     
     if data == None:
-      return "DataNotRecieved"
+      return render_template("participate_lottery.html", message = "Data Not Recieved")
     else:
       if (User.query.filter_by(User_Email = data["email"]).first() is None):
-        return "E-mail id Not Registered"
+        return render_template("participate_lottery.html", message = "E-mail Id is not Registered")
       else:
         ticket = Ticket.query.filter_by(Email = data["email"]).first()
       
         if(ticket is None):
-          return "User does not have tickets"
+          return render_template("participate_lottery.html", message = "Users Does not have tickets. Please buy them")
 
         elif(ParticipatingIds.query.filter_by(Ticket_Id = ticket.id).first() is None):
           db.session.add(ParticipatingIds(Ticket_Id = ticket.id ))
           db.session.commit()
-          return "Your Event Registration is Successfull, Best of Lucks for Lottery"
+          return render_template("participate_lottery.html", message = "You have successfully registered for the Lottery Event. Best of luck for that!!")
        
         else:
-          return "You have already Participated in Event. Max one time is allowed"
-
-  except Exception as err:
-    print(err)
+          return render_template("participate_lottery.html", message = "You have already participated for Lottery Event. Maximum One time is Allowed")
 
 @app.route("/winners-list")
 def WinnerList():
@@ -149,21 +149,18 @@ def WinnerList():
 @app.route("/open-lottery")
 def OpenLottery():
   participatingcount = db.session.query(ParticipatingIds).count()
-  print(participatingcount)
   today = date.today()
   winingLotteryNumber = random.randint(1, participatingcount)
-  print(winingLotteryNumber)
   winingField = ParticipatingIds.query.filter_by(id = winingLotteryNumber).first()
-  print(type(winingField))
   winingTicketNumber = winingField.Ticket_Id
   winingEmail = Ticket.query.filter_by(id = winingTicketNumber).first().Email  
-  print(winingEmail)
   lotteryfield = Lottery.query.filter_by(Date = today).first()
   lotteryfield.Winner_Email = winingEmail
   db.session.commit()
-  ## Yaha tak sahi chal rha hai code
   participatingIds = ParticipatingIds.query.all()
   for element in participatingIds :
     db.session.delete(element)
   db.session.commit()
   return f"Winner is {winingEmail} "
+
+

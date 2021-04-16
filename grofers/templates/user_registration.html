@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %} User Registration {% endblock title %}
+
+{% block body %}
+<div class="container my-3">
+  <h1 style="justify-content: center;">Register User</h1>
+
+  <form action="/register-user" method="POST">
+    <div class="mb-3">
+      <label for="Email" class="form-label">Email Address</label>
+      <input type="email" class="form-control" id="email" name="email" required>
+      <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    </div>
+    <div class="mb-3">
+      <label for="User Name" class="form-label">User Name</label>
+      <input type="text" class="form-control" id="username" name='username' required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Register</button>
+  </form>
+
+  {% if message %}
+  <div class="alert alert-info my-3" role="alert">
+    {{message}}
+  </div>
+  {% endif %}
+
+</div>
+{% endblock body %}
