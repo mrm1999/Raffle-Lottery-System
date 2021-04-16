@@ -44,6 +44,7 @@ def dummy():
 def index():
   today = date.today()
   hr = datetime.now().hour
+  print(hr)
   dateandprizes = []
   for i in range(7):
     if hr < 20:
@@ -139,8 +140,9 @@ def LotteryRegistration():
 
 @app.route("/winners-list")
 def WinnerList():
-  today = date.today()
+  today = date.today() 
   hr = datetime.now().hour
+  print(hr)
   winners = []
   for i in range(7):
     if hr < 20:
