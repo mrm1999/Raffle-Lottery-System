@@ -4,6 +4,7 @@
 {% block body %}
 <div class="container my-3">
   <h1 style="justify-content: center;">Ticket Purchase</h1>
+  <!-- This form is for getting ticket-->
   <form action="/get-ticket" method="POST">
     <div class="mb-3">
       <label for="Email" class="form-label">Email Address</label>
@@ -12,9 +13,9 @@
     </div>
     <button type="submit" class="btn btn-primary">Get Ticket</button>
   </form>
-
   {% if message %}
   <div class="alert alert-info my-3" role="alert">
+    <!-- will used to display message sent by the api -->
     {{message}}
   </div>
   {% endif %}

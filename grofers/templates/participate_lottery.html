@@ -4,7 +4,8 @@
 {% block body %}
 <div class="container my-3">
   <h1 style="justify-content: center;"> Participate in Lottery</h1>
-  <form action = "/lottery-registration" method="POST">
+  <form action = "/participate-in-lottery" method="POST">
+  <!-- Form for participating in event -->
   <div class="mb-3">
     <label for="Email" class="form-label">Email Address</label>
     <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name = "email" required>
@@ -15,6 +16,7 @@
 
 {% if message %}
 <div class="alert alert-info my-3" role="alert">
+  <!-- will used to display message sent by the api -->
   {{message}}
 </div>
 {% endif %}

@@ -3,6 +3,7 @@
 
 {% block body %}
 <div class="container my-3">
+  <!-- this is for displaying the upcoming event date with prizes -->
   <h1 style="justify-content: center;">Upcoming Prizes</h1>
   <table class="table table-bordered table-striped table-sm my-3">
     <thead>
@@ -28,6 +29,7 @@
     <h3><span id="span"></span></h3>
     
     <script>
+      // This is for displaying live clock on our website
       var span = document.getElementById('span');
 
       function time() {
@@ -36,9 +38,10 @@
         var m = d.getMinutes();
         var h = d.getHours();
 
+        //At exactly 8PM(20:00:00), This if loop will trigger the /open-lottery api and results will be added to the database
         if(h == 20 && m == 0 && s==0){
           var request = new XMLHttpRequest()
-          request.open('GET', '/open-lottery', true)    
+          request.open('GET', '/open-lucky-draw', true)    
           request.send()
           console.log(request.responseText)
           alert("It's Time for lottery Opening")

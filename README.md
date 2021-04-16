@@ -24,24 +24,29 @@ There is a minimal ui that has all the required elements (form, result display).
     ```
     This will create a grofers.sqlite file inside the repo where all data will be stored.
 - Run the flask app
+    ```sh
+      export FLASK_APP=run
+      flask run
+    ```
+
 
 # API documentation
 ## Entities: 
 ![Entities Diagram](Lucky_Draw_entities.png)
 
-##### "/register_user" : 
+##### "/register-user" : 
 In the example provided with the assignment pdf, these APIs were to be consumed by verified users, so I skipped the redundant user-verification chore, and made a minimal user-registeration page that takes parameters "Name" and "Email".  This name will be used as the identifier at all places inside the app. 
 
-##### "/get_ticket" : 
+##### "/get-ticket" : 
 This api takes in a email as a form parameter, and generates a unique raffle ticket number. This ticket is also stored in database, and can be used in any future lucky draw.
 
-##### "/get_upcoming lotteries" : 
+##### "/" : 
 Lists the upcoming lotteries, along with the dates, and prizes.
 
-##### "/participate_in_lottery" : 
+##### "/participate-in-lottery" : 
 This api takes in "Email" as the only Parameter. The server then first checks whether this email is registered or not. It then proceeds to check whether this user has any raffle tickets, or not. If he has a raffle ticket, the oldest raffle ticket is used to participate in the nearest upcoming lucky draw. The server puts this ticketId inside the participatingIds table, if his email is not already there. This completes the registration process.
 
-##### "/get_winners": 
+##### "/get-winners": 
 Lists a table of previos past 7 winner emails, along the date they won, and the prize the grabbed by the lucky draw.
 
 ##### "/open-lucky-draw":
