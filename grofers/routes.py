@@ -2,7 +2,7 @@ from flask.helpers import flash, url_for
 from sqlalchemy.orm import query
 from grofers import app, db
 from .models import ParticipatingIds, Ticket, User, Lottery
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta, time
 from flask import request, jsonify, render_template, redirect
 import json
 import random
@@ -43,9 +43,13 @@ def dummy():
 @app.route("/")
 def index():
   today = date.today()
+  hr = datetime.now().hour
   dateandprizes = []
   for i in range(7):
-    entry = Lottery.query.filter_by(Date = today + timedelta(days= i)).first()
+    if hr < 20:
+      entry = Lottery.query.filter_by(Date = today + timedelta(days= i)).first()
+    else:
+      entry = Lottery.query.filter_by(Date = today + timedelta(days= i+1)).first()
     dateandprizes.append({
       "Date" : f'{entry.Date.day}-{entry.Date.month}-{entry.Date.year}', 
       "Prize" : entry.Prizes
@@ -136,9 +140,13 @@ def LotteryRegistration():
 @app.route("/winners-list")
 def WinnerList():
   today = date.today()
+  hr = datetime.now().hour
   winners = []
   for i in range(7):
-    entry = Lottery.query.filter_by(Date = today - timedelta(days= i+1 )).first()
+    if hr < 20:
+      entry = Lottery.query.filter_by(Date = today - timedelta(days= i+1 )).first()
+    else:
+      entry = Lottery.query.filter_by(Date = today - timedelta(days= i)).first()
     winners.append({
       "Date" : f'{entry.Date.day}-{entry.Date.month}-{entry.Date.year}', 
       "Prize" : entry.Prizes,
