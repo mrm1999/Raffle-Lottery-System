@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %} Home {% endblock title %}
+
+{% block body %}
+<h1 style="justify-content: center;">Upcoming Prizes</h1>
+<table class="table table-bordered table-striped table-sm my-3">
+  <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Prize</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for dateandprize in dateandprizes %}
+    <tr>
+      <td>{{dateandprize["Date"]}}</td>
+      <td>{{dateandprize["Prize"]}}</td>
+    </tr> 
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock body %}
