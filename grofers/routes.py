@@ -1,7 +1,10 @@
+from flask.helpers import flash, url_for
+from sqlalchemy.orm import query
 from grofers import app, db
 from .models import ParticipatingIds, Ticket, User, Lottery
-from datetime import date, datetime, timedelta,
-from flask import request, render_template
+from datetime import date, datetime, timedelta, time
+from flask import request, jsonify, render_template, redirect
+import json
 import random
 
 #This API will be used to insert dummy data in Database. While in Production Mode, We have to remove this API
@@ -55,7 +58,7 @@ def index():
   print(hr)
   dateandprizes = []
   for i in range(7):
-    if hr < 8:
+    if hr < 20:
       #if time is less than 8PM. It will show upcoming prizes(include that day also)
       entry = Lottery.query.filter_by(Date = today + timedelta(days= i)).first()
     else:
@@ -156,7 +159,7 @@ def WinnerList():
   hr = datetime.now().hour
   winners = []
   for i in range(7):
-    if hr < 2 :
+    if hr < 20:
       #if time is less than 8PM. It will show winners(not include that day )
       entry = Lottery.query.filter_by(Date = today - timedelta(days= i+1 )).first()
     else:
