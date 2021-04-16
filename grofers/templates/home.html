@@ -20,5 +20,34 @@
       {% endfor %}
     </tbody>
   </table>
+  <div class="alert alert-danger" role="alert" style="text-align: center;">
+    <h4>Lottery Will be Opened at 20:00:00 </h4>
+  </div>
+  <div class="alert alert-primary" role="alert" style="text-align: center;">
+    <h3>Time</h3>
+    <h3><span id="span"></span></h3>
+    
+    <script>
+      var span = document.getElementById('span');
+
+      function time() {
+        var d = new Date();
+        var s = d.getSeconds();
+        var m = d.getMinutes();
+        var h = d.getHours();
+
+        if(h == 20 && m == 0 && s==0){
+          var request = new XMLHttpRequest()
+          request.open('GET', '/open-lottery', true)    
+          request.send()
+          console.log(request.responseText)
+          alert("It's Time for lottery Opening")
+        }
+        span.textContent = 
+          ("0" + h).substr(-2) + ":" + ("0" + m).substr(-2) + ":" + ("0" + s).substr(-2);
+      }
+      setInterval(time,1000);
+    </script>  
+  </div>
 </div>
 {% endblock body %}
