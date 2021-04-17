@@ -40,6 +40,7 @@ I have also hosted the Service on heroku : https://raffle-lottery-project.heroku
 
 
 ##### "/register-user" : 
+-Form Parameter: username, email
 In the example provided with the assignment pdf, these APIs were to be consumed by verified users, so I skipped the redundant user-verification chore, and made a minimal user-registeration page that takes parameters "Name" and "Email".  This name will be used as the identifier at all places inside the app. 
 
 
@@ -51,7 +52,8 @@ This api takes in a email as a form parameter, and generates a unique raffle tic
 Lists the upcoming lotteries, along with the dates, and prizes.
 
 
-##### "/participate-in-lottery" : 
+##### "/participate-in-lottery" :
+-Form Parameter: email
 This api takes in "Email" as the only Parameter. The server then first checks whether this email is registered or not. It then proceeds to check whether this user has any raffle tickets, or not. If he has a raffle ticket, the oldest raffle ticket is used to participate in the nearest upcoming lucky draw. The server puts this ticketId inside the participatingIds table, if his email is not already there. This completes the registration process.
 
 
@@ -60,6 +62,7 @@ Lists a table of previos past 7 winner emails, along the date they won, and the 
 
 
 ##### "/open-lucky-draw":
+-Form Parameter: email
 The single url, which does the job of drawing out the lottery. A cron job can be scheduled in the server machine to automatically trigger this api, at the appointed draw time of the lottery. On the hind-sight, it picks a random ticket id from the list of participating ids, and the email associated with this ticket is marked as the winner.
 After the draw is over, the server drops the participating tickets table, thereby also deleting all the used tickets. The results can be view on the results page.
 
