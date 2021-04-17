@@ -40,21 +40,19 @@ I have also hosted the Service on heroku : https://raffle-lottery-project.heroku
 
 
 ##### "/register-user" : 
--Form Parameter: username, email
--In the example provided with the assignment pdf, these APIs were to be consumed by verified users, so I skipped the redundant user-verification chore, and made a minimal user-registeration page that takes parameters "Name" and "Email".  This name will be used as the identifier at all places inside the app. 
+In the example provided with the assignment pdf, these APIs were to be consumed by verified users, so I skipped the redundant user-verification chore, and made a minimal user-registeration page that takes form parameters as **"username"** and **"email"**.  This name will be used as the identifier at all places inside the app. 
 
 
 ##### "/get-ticket" : 
--This api takes in a email as a form parameter, and generates a unique raffle ticket number. This ticket is also stored in database, and can be used in any future lucky draw.
+This api takes in a **"email"** as a form parameter, and generates a unique raffle ticket number. This ticket is also stored in database, and can be used in any future lucky draw.
 
 
 ##### "/" : 
--Lists the upcoming lotteries, along with the dates, and prizes.
+Lists the upcoming lotteries, along with the dates, and prizes.
 
 
 ##### "/participate-in-lottery" :
--Form Parameter: email
--This api takes in "Email" as the only Parameter. The server then first checks whether this email is registered or not. It then proceeds to check whether this user has any raffle tickets, or not. If he has a raffle ticket, the oldest raffle ticket is used to participate in the nearest upcoming lucky draw. The server puts this ticketId inside the participatingIds table, if his email is not already there. This completes the registration process.
+This api takes in **"email"** as the only Parameter. The server then first checks whether this email is registered or not. It then proceeds to check whether this user has any raffle tickets, or not. If he has a raffle ticket, the oldest raffle ticket is used to participate in the nearest upcoming lucky draw. The server puts this ticketId inside the participatingIds table, if his email is not already there. This completes the registration process.
 
 
 ##### "/get-winners": 
@@ -62,8 +60,7 @@ I have also hosted the Service on heroku : https://raffle-lottery-project.heroku
 
 
 ##### "/open-lucky-draw":
--Form Parameter: email
--The single url, which does the job of drawing out the lottery. A cron job can be scheduled in the server machine to automatically trigger this api, at the appointed draw time of the lottery. On the hind-sight, it picks a random ticket id from the list of participating ids, and the email associated with this ticket is marked as the winner.
+The single url, which does the job of drawing out the lottery.A javscript has been written in html which will automatically trigger this API at 8:00 PM everyday. On the hind-sight, it picks a random ticket id from the list of participating ids, and the email associated with this ticket is marked as the winner.
 After the draw is over, the server drops the participating tickets table, thereby also deleting all the used tickets. The results can be view on the results page.
 
 
