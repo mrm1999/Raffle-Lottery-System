@@ -26,13 +26,7 @@ I have also hosted the Service on heroku : https://raffle-lottery-project.heroku
     ```sh
       pip install -r requirements.txt
     ```
-- In the repository main folder, you will need to create the first run database manually. Just fire a python3 REPL inside and folder and run the following commands.
-    ```sh
-      $ python3
-      from grofers import db
-      db.create_all()
-    ```
-    This will create a grofers.sqlite file inside the repo where all data will be stored.
+- Since for development purpose, I have already inserted some data in sqlite. If you wanted to reset the database you can trigger the reset Api and dummy api to insert dummy data after running the flask app 
 - Run the flask app
     ```sh
       export FLASK_APP=run
