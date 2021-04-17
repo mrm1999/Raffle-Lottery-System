@@ -16,16 +16,17 @@ def dummy():
     EmailList = ["mohitrajmunot1999@gmail.com","mohitrajmunot113@gmail.com", "mems180005017@gmail.com", "ayush@gmail.com" , "harsh@gmail.com", "vineet@gmail.com", "lakshya@gmail.com", "mukul@gmail.com", "aditya@gmail.com" ]
     UserNameList = [ "Mohit Raj Munot","Mohit Raj ","Mohit ", "ayush", "harsh", "vineet", "lakshya", "mukul", "aditya" ]
     
+    today = date.today()
     day = date.today().day 
     
     for i in range(9):
       db.session.add(User(User_Name = UserNameList[i], User_Email = EmailList[i]))
     
     for i in range(18):
-      if (i+8 < day ) :
-        db.session.add(Lottery(Date = date(2021, 4 , 8+i), Prizes = PrizeList[i], Winner_Email = EmailList[i]))
+      if (i < 8 and i != 0 ) :
+        db.session.add(Lottery(Date = today - timedelta(days = i), Prizes = PrizeList[i], Winner_Email = EmailList[i]))
       else:
-        db.session.add(Lottery(Date = date(2021, 4 , 8+i), Prizes = PrizeList[i]))
+        db.session.add(Lottery(Date = today + timedelta(days = i-8), Prizes = PrizeList[i]))
 
     for i in range(7):
       db.session.add(Ticket(Email = EmailList[i]))
