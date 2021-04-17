@@ -180,18 +180,21 @@ def WinnerList():
 @app.route("/open-lucky-draw")
 def OpenLottery():
   participatingcount = db.session.query(ParticipatingIds).count()  #Will count the no of participation for that day
-  today = date.today()                                                
-  winingLotteryNumber = random.randint(1, participatingcount)      #for lottery allotment we will be selecting a random value from 1 to count
-  winingField = ParticipatingIds.query.filter_by(id = winingLotteryNumber).first()
-  winingTicketNumber = winingField.Ticket_Id                        #will get corresponding ticket no to that winning lottery no.
-  winingEmail = Ticket.query.filter_by(id = winingTicketNumber).first().Email  #will get corresponding e_mail to that ticket number
-  lotteryfield = Lottery.query.filter_by(Date = today).first()
-  lotteryfield.Winner_Email = winingEmail                            #will update the wining email id in the data base
-  db.session.commit()
-  participatingIds = ParticipatingIds.query.all()
-  for element in participatingIds :           #will delete all the participating ids for that particukar event.
-    db.session.delete(element)                #Also as ticket id is foreign key for participating fields by cascading, the corresponding ticket will also dete in ticket table                        
-  db.session.commit()
-  return f"Winner is {winingEmail} "          #Will Send the winner
+  today = date.today()
+  if(participatingcount == 0):
+    return "Their is no registration for today."
+  else:                                                
+    winingLotteryNumber = random.randint(1, participatingcount)      #for lottery allotment we will be selecting a random value from 1 to count
+    winingField = ParticipatingIds.query.filter_by(id = winingLotteryNumber).first()
+    winingTicketNumber = winingField.Ticket_Id                        #will get corresponding ticket no to that winning lottery no.
+    winingEmail = Ticket.query.filter_by(id = winingTicketNumber).first().Email  #will get corresponding e_mail to that ticket number
+    lotteryfield = Lottery.query.filter_by(Date = today).first()
+    lotteryfield.Winner_Email = winingEmail                            #will update the wining email id in the data base
+    db.session.commit()
+    participatingIds = ParticipatingIds.query.all()
+    for element in participatingIds :           #will delete all the participating ids for that particukar event.
+      db.session.delete(element)                #Also as ticket id is foreign key for participating fields by cascading, the corresponding ticket will also dete in ticket table                        
+    db.session.commit()
+    return f"Winner is {winingEmail} "          #Will Send the winner
 
 
